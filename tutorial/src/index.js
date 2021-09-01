@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+//#region 
 const myfirstelement = <h1>Hello React!</h1>
 
 const name = "tomer abrashkin"
@@ -25,11 +26,99 @@ function clock(){
     </div>
   );
   ReactDOM.render(time_element,document.getElementById('root'));
+}//there is a better way to execute this 
+
+class Clock extends React.Component{
+  constructor(props)
+  {
+    super(props)
+    this.state = {date : new Date()};
+  }
+  componentDidMount(){ //invoked after the component output was rendered to DOM 
+    this.timerID = setInterval( ()=> this.tick() , 1000);
+  }
+  componentWillUnmount(){ //invoked immediately before a component is unmounted and destroyed.
+    clearInterval(this.timerID);
+  }
+  tick(){
+    this.setState({
+      date : new Date()
+    });
+  }
+  render(){
+    return (
+      <div>
+      <h1>It is {this.state.date.toLocaleTimeString()} .</h1>
+      </div>
+    )
+  }
 }
 
-setInterval(clock,1000)
+class Welcom extends React.Component{
+  render(){
+    return <h1>hello , {this.props.name}</h1>
+  }
+}
+
+function Greeteveryone(){
+  return (
+    <div>
+    <Welcom name="tomer" />
+    <Welcom name="adi" />
+    <Welcom name="idan" />
+    </div>
+  );
+}
+//#endregion
+
+
+class Loginpage extends React.Component
+{
+  constructor(props)
+  {
+    super(props);
+    this.state = ({
+      username : "" ,
+      password : "" ,
+      showform : "true"
+    });
+  }
+  submitinfo(){
+    this.setState({username : document.getElementById('usernameinput').,
+                   password : document.getElementById('usernameinput').value,
+                   showform : "false" });
+  }
+  render(){
+    if(this.state.showform == "true"){
+    return <div className="LogInPage">
+      <Welcom name="Guest" />
+      <p>Enter User Name: </p>
+      <input id='usernameinput' className='input'></input>
+      <p>Enter Password: </p>
+      <input type='password' id='passwordinput' className='input'></input>
+      <br></br><br></br>
+      <button className='logbutton' onClick={this.submitinfo}>submit</button>
+    </div>
+    }else
+    {
+      return <div className="LoggedIn">
+        <Welcom name={this.state.username} />
+      </div>
+    }
+  }
+}
 
 // ReactDOM.render(myfirstelement,document.getElementById('root'));
 // ReactDOM.render(presentme, document.getElementById('root'));
 // ReactDOM.render(element, document.getElementById('root'));
+// setInterval(clock,1000)
+ReactDOM.render(<Loginpage />,document.getElementById('root'));
 
+//ReactDOM.render(<Clock />,document.getElementById('root')); 
+//the clock lifecycle is:
+//call clock component, init the state with new clock
+//call render() and dsiplay its return value on the DOM
+//when finished displaying on DOM call componentdidmount()
+//componentdidmount tells the browsed to call tick() every second
+//when tick() changes the state.date react knows he needs to call render() again
+//the cycle of tick()->change state->render() continues
