@@ -82,14 +82,18 @@ class Loginpage extends React.Component
       password : "" ,
       showform : true
     });
-    {/*needs to add this.handleSubmit = this.handleSubmit.bind(this); to solve TypeError on line 91 */}
+    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleLogOut = this.handleLogOut.bind(this);
   }
   handleSubmit(e){
     e.preventDefault();
-    this.setState({ username : "FUNCTION WAS CALL INSTANTLY",
+    this.setState({ username : "abc",
                     password : "123",
-                    showform : false}); {/* TypeError: Cannot read property 'setState' of undefined */}
+                    showform : this.state.showform ? false : true});
   } 
+  hundleLogOut(){
+    this.setState({showform: true});
+  }
   render(){
     if(this.state.showform == true){
     return <form onSubmit={this.handleSubmit}> 
@@ -107,6 +111,7 @@ class Loginpage extends React.Component
     {
       return <div className="LoggedIn">
         <Welcom name={this.state.username} />
+        <button onClick={this.handleSubmit}>Log Out</button>
       </div>
     }
   }
