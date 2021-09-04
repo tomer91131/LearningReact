@@ -80,25 +80,29 @@ class Loginpage extends React.Component
     this.state = ({
       username : "" ,
       password : "" ,
-      showform : "true"
+      showform : true
     });
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  submitinfo(){
-    this.setState({username : document.getElementById('usernameinput').,
-                   password : document.getElementById('usernameinput').value,
-                   showform : "false" });
-  }
+  handleSubmit(e){
+    e.preventDefault();
+    this.setState({ username : "abc",
+                    password : "123",
+                    showform : false});
+  } 
   render(){
-    if(this.state.showform == "true"){
-    return <div className="LogInPage">
+    if(this.state.showform == true){
+    return <form onSubmit={this.handleSubmit}>
+        <div className="LogInPage">
       <Welcom name="Guest" />
-      <p>Enter User Name: </p>
-      <input id='usernameinput' className='input'></input>
-      <p>Enter Password: </p>
+      <label>Enter User Name: </label><br />
+      <input type='text' id='usernameinput'  className='input'></input><br />
+      <label>Enter Password: </label><br />
       <input type='password' id='passwordinput' className='input'></input>
-      <br></br><br></br>
-      <button className='logbutton' onClick={this.submitinfo}>submit</button>
-    </div>
+      <br /><br />
+      <input type='submit' /> 
+      </div>
+    </form>
     }else
     {
       return <div className="LoggedIn">
