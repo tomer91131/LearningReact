@@ -82,17 +82,15 @@ class Loginpage extends React.Component
       password : "" ,
       showform : true
     });
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  handleSubmit(e){
-    e.preventDefault();
-    this.setState({ username : "abc",
+  handleSubmit(){
+    this.setState({ username : "FUNCTION WAS CALL INSTANTLY",
                     password : "123",
-                    showform : false});
+                    showform : false}); {/* If I replace FALSE with TRUE React will go in to INFINITE LOOP */}
   } 
   render(){
     if(this.state.showform == true){
-    return <form onSubmit={this.handleSubmit}>
+    return <form onSubmit={this.handleSubmit()}> {/* Error - calls the function right away */}
         <div className="LogInPage">
       <Welcom name="Guest" />
       <label>Enter User Name: </label><br />
