@@ -1,3 +1,4 @@
+import react from 'react';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -56,7 +57,7 @@ class Clock extends React.Component{
 
 class Welcom extends React.Component{
   render(){
-    return <h1>hello , {this.props.name}</h1>
+    return <h1>hi , {this.props.name}</h1>
   }
 }
 
@@ -82,35 +83,43 @@ class Loginpage extends React.Component
       password : "" ,
       showform : true
     });
+    this.unameref = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
   handleSubmit(e){
     e.preventDefault();
-    this.setState({ username : "abc",
-                    password : "123",
-                    showform : this.state.showform ? false : true});
+    this.setState({showform : this.state.showform ? false : true});
   } 
-  hundleLogOut(){
-    this.setState({showform: true});
+  handleChange(event)
+  {
+    if(event.target.name == 'iUsername')
+    {
+    this.setState({username : event.target.value});
+    }else
+    {
+      this.setState({password : event.target.value});
+    }
   }
   render(){
     if(this.state.showform == true){
     return <form onSubmit={this.handleSubmit}> 
         <div className="LogInPage">
       <Welcom name="Guest" />
-      <label>Enter User Name: </label><br />
-      <input type='text' id='usernameinput'  className='input'></input><br />
-      <label>Enter Password: </label><br />
-      <input type='password' id='passwordinput' className='input'></input>
+        <label>Enter User Name: </label><br />
+        <input type='text' name='iUsername' onChange={this.handleChange} /><br /> {/* option 1 for reaching inputed values */}
+        <label>Enter Password: </label><br />
+        <input type='password' name='iPassword' ref={this.unameref} /> {/* option 2 for reaching inputed values */}
       <br /><br />
-      <input type='submit' /> 
+        <input type='submit' />
+
       </div>
     </form>
     }else
     {
       return <div className="LoggedIn">
         <Welcom name={this.state.username} />
+        <h1>dont tell anyone your password is {this.unameref.current.value}</h1>
         <button onClick={this.handleSubmit}>Log Out</button>
       </div>
     }
